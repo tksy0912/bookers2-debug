@@ -43,6 +43,23 @@
             </td>
         </tr>
       </table>
+    <div>
+      <p>コメント件数：<%= @book.book_comments.count %></p>
+      <% @book.book_comments.each do |book_comment| %>
+        <%= image_tag @book.user.get_profile_image, size:"100x100" %>
+        <%= book_comment.comment %>
+        <p><%= book_comment.user.name %></p>
+      <% end %>
+      <% if @book_comment.user == current_user %>
+        <%= link_to 'Destroy', @book_comment, method: :delete, class: "btn btn-sm btn-danger"%>
+      <% end %>
+    </div>
+    <div>
+      <%= form_with model: [@book, @book_comment] do |f| %>
+        <%= f.text_area :comment, rows: '5' %>
+        <%= f.submit "送信" %>
+      <% end %>
+    </div>      
     </div>
   </div>
 </div>
