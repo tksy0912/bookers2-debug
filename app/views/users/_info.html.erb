@@ -20,7 +20,7 @@
 
 <% unless user.guest_user? %>
 <div class="row">
-  <%= link_to "",edit_user_path(user),class: "btn btn-outline-secondary btn-block fas fa-user-cog edit_user_#{user.id}" %>
+  <%= link_to "",edit_user_path(user),　class: "btn btn-outline-secondary btn-block edit_user_#{user.id}" %>
 </div>
 <% end %>
 
@@ -33,3 +33,18 @@
     <% end %>
   <% end %>
 </div>
+
+<% unless @user == current_user %>
+  <% if (current_user.following? @user) && (@user.following? current_user)  %>
+  <% if @isRoom == true %>
+    <p class="user-show-room"><a href="/rooms/<%= @roomId %>">チャットへ</a>
+  <% else %>
+    <%= form_for @room do |f| %>
+      <%= fields_for @entry do |e| %>
+        <%= e.hidden_field :user_id, value: @user.id %>
+      <% end %>
+      <%= f.submit "チャットを始める", class:"btn btn-primary btn-lg user-show-chat" %>
+    <% end %>
+  <% end %>
+  <% end %>
+<% end %>
